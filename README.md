@@ -1,4 +1,9 @@
 # Whiteplanes
+[![Build Status](https://travis-ci.org/whiteplanes/whiteplanes.py.svg?branch=master)](https://travis-ci.org/whiteplanes/whiteplanes.py)
+[![Coverage Status](https://coveralls.io/repos/github/whiteplanes/whiteplanes.py/badge.svg?branch=master)](https://coveralls.io/github/whiteplanes/whiteplanes.py?branch=master)
+[![Dependency Status](https://gemnasium.com/badges/github.com/whiteplanes/whiteplanes.py.svg)](https://gemnasium.com/github.com/whiteplanes/whiteplanes.py)
+[![Code Climate](https://codeclimate.com/github/whiteplanes/whiteplanes.py/badges/gpa.svg)](https://codeclimate.com/github/whiteplanes/whiteplanes.py)
+
 
 Whiteplane is a whitespace interpreter writen in Python
 
