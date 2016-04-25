@@ -1,0 +1,11 @@
+language: python
+python:
+  - 3.4
+  - 3.5
+install:
+  - pip install coverage
+  - pip install coveralls
+scripts:
+  - coverage run setup.py test
+after_success:                                                                  
+  - coveralls
