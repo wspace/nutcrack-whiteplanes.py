@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from abc import ABCMeta, abstractmethod
-from command import Command
+from command import Command, Register
 
 
 ########################################################################
@@ -28,11 +28,11 @@ class Whiteplanes(object):
 
     def run(self, *, context=None):
         Context.register(type(context))
-        [command(context=context) for command in self.commands if command.name == Command.Token.REGISTER]
+        [command(context=context) for command in self.commands if command.name == Register]
 
         while (context.counter < len(self.commands)):
             command = self.commands[context.counter]
-            if command.name == Command.Token.REGISTER:
+            if command.name == Register:
                 context.counter += 1
                 continue
             command(context=context)
