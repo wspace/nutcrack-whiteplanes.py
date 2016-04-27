@@ -9,12 +9,12 @@ from enum import Enum
 ########################################################################
 class Push(object):
 
-    Token, Step = "  ", 2
+    Token, Step, IsNeedParameter = "  ", 2, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the PUSH command. """
-        context.stack.append(parameter['value'])
+        context.stack.append(int(parameter['param'], 2))
 
 
 ########################################################################
@@ -22,12 +22,13 @@ class Push(object):
 ########################################################################
 class Copy(object):
 
-    Token, Step = " \t ", 3
+    Token, Step, IsNeedParameter = " \t ", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the COPY command. """
-        context.stack.append(context.stack[parameter['value']])
+        index = int(parameter['param'], 2)
+        context.stack.append(context.stack[index])
 
 
 ########################################################################
@@ -35,13 +36,13 @@ class Copy(object):
 ########################################################################
 class Slide(object):
 
-    Token, Step = " \t\n", 3
+    Token, Step, IsNeedParameter = " \t\n", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the SLIDE command. """
         value = context.stack.pop()
-        for index in range(0, parameter['value']):
+        for index in range(0, int(parameter['param'], 2)):
             context.stack.pop()
         context.stack.append(value)
 
@@ -51,7 +52,7 @@ class Slide(object):
 ########################################################################
 class Duplicate(object):
 
-    Token, Step = " \n ", 3
+    Token, Step, IsNeedParameter = " \n ", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -64,7 +65,7 @@ class Duplicate(object):
 ########################################################################
 class Swap(object):
 
-    Token, Step = " \n\t", 3
+    Token, Step, IsNeedParameter = " \n\t", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -78,7 +79,7 @@ class Swap(object):
 ########################################################################
 class Discard(object):
 
-    Token, Step = " \n\n", 3
+    Token, Step, IsNeedParameter = " \n\n", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -91,7 +92,7 @@ class Discard(object):
 ########################################################################
 class Add(object):
 
-    Token, Step = "\t   ", 4
+    Token, Step, IsNeedParameter = "\t   ", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -105,7 +106,7 @@ class Add(object):
 ########################################################################
 class Sub(object):
 
-    Token, Step = "\t  \t", 4
+    Token, Step, IsNeedParameter = "\t  \t", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -119,7 +120,7 @@ class Sub(object):
 ########################################################################
 class Mul(object):
 
-    Token, Step = "\t  \n", 4
+    Token, Step, IsNeedParameter = "\t  \n", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -133,7 +134,7 @@ class Mul(object):
 ########################################################################
 class Div(object):
 
-    Token, Step = "\t \t ", 4
+    Token, Step, IsNeedParameter = "\t \t ", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -147,7 +148,7 @@ class Div(object):
 ########################################################################
 class Mod(object):
 
-    Token, Step = "\t \t\t", 4
+    Token, Step, IsNeedParameter = "\t \t\t", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -161,7 +162,7 @@ class Mod(object):
 ########################################################################
 class Store(object):
 
-    Token, Step = "\t\t ", 3
+    Token, Step, IsNeedParameter = "\t\t ", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -175,7 +176,7 @@ class Store(object):
 ########################################################################
 class Retrieve(object):
 
-    Token, Step = "\t\t\t", 3
+    Token, Step, IsNeedParameter = "\t\t\t", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -189,12 +190,12 @@ class Retrieve(object):
 ########################################################################
 class Register(object):
 
-    Token, Step = "\n  ", 3
+    Token, Step, IsNeedParameter = "\n  ", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the REGISTER command. """
-        context.labels[parameter['name']] = parameter['location']
+        context.labels[parameter['param']] = parameter['location']
 
 
 ########################################################################
@@ -202,13 +203,13 @@ class Register(object):
 ########################################################################
 class Call(object):
 
-    Token, Step = "\n \t", 3
+    Token, Step, IsNeedParameter = "\n \t", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the CALL command. """
         context.callstack.append(parameter['location'])
-        context.counter = context.labels[parameter['name']]
+        context.counter = context.labels[parameter['param']]
 
 
 ########################################################################
@@ -216,12 +217,12 @@ class Call(object):
 ########################################################################
 class Jump(object):
 
-    Token, Step = "\n \n", 3
+    Token, Step, IsNeedParameter = "\n \n", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the JUMP command. """
-        context.counter = context.labels[parameter['name']]
+        context.counter = context.labels[parameter['param']]
 
 
 ########################################################################
@@ -229,13 +230,13 @@ class Jump(object):
 ########################################################################
 class Equal(object):
 
-    Token, Step = "\n\t ", 3
+    Token, Step, IsNeedParameter = "\n\t ", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the TEST[EQUAL] command. """
         if context.stack.pop() == 0:
-            context.counter = context.labels[parameter['name']]
+            context.counter = context.labels[parameter['param']]
 
 
 ########################################################################
@@ -243,13 +244,13 @@ class Equal(object):
 ########################################################################
 class Less(object):
 
-    Token, Step = "\n\t\t", 3
+    Token, Step, IsNeedParameter = "\n\t\t", 3, True
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
         """ Evaluate the TEST[LESS] command. """
         if context.stack.pop() < 0:
-            context.counter = context.labels[parameter['name']]
+            context.counter = context.labels[parameter['param']]
 
 
 ########################################################################
@@ -257,7 +258,7 @@ class Less(object):
 ########################################################################
 class Return(object):
 
-    Token, Step = "\n\t\n", 3
+    Token, Step, IsNeedParameter = "\n\t\n", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -270,7 +271,7 @@ class Return(object):
 ########################################################################
 class End(object):
 
-    Token, Step = "\n\n\n", 3
+    Token, Step, IsNeedParameter = "\n\n\n", 3, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -283,7 +284,7 @@ class End(object):
 ########################################################################
 class Cout(object):
 
-    Token, Step = "\t\n  ", 4
+    Token, Step, IsNeedParameter = "\t\n  ", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -297,7 +298,7 @@ class Cout(object):
 ########################################################################
 class Iout(object):
 
-    Token, Step = "\t\n \t", 4
+    Token, Step, IsNeedParameter = "\t\n \t", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -311,7 +312,7 @@ class Iout(object):
 ########################################################################
 class Cin(object):
 
-    Token, Step = "\t\n\t ", 4
+    Token, Step, IsNeedParameter = "\t\n\t ", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -326,7 +327,7 @@ class Cin(object):
 ########################################################################
 class Iin(object):
 
-    Token, Step = "\t\n\t\t", 4
+    Token, Step, IsNeedParameter = "\t\n\t\t", 4, False
 
     @classmethod
     def process(cls, *, context=None, parameter=None):
@@ -350,34 +351,24 @@ class Command(object):
 
     @classmethod
     def make(cls, code):
-        def parameter(index):
-            param = ""
-            for character in code[index:]:
-                if character == " ":
-                    param += "0"
-                elif character == "\t":
-                    param += "1"
-                elif character == "\n":
-                    return (param, len(param) + 1)
-
         cur, commands, count = 0, 0, len(code)
         while cur < count:
             token = code[cur:] if ((cur + 3) - count) >= 0 else code[cur:cur + 4]
             if "".join(token[0:Push.Step]) == Push.Token:
                 cur += Push.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Push, parameter={'value': int(param, 2)})
+                yield Command(Push, parameter={'param': param})
             elif "".join(token[0:Copy.Step]) == Copy.Token:
                 cur += Copy.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Copy, parameter={'value': int(param, 2)})
+                yield Command(Copy, parameter={'param': param})
             elif "".join(token[0:Slide.Step]) == Slide.Token:
                 cur += Slide.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Slide, parameter={'value': int(param, 2)})
+                yield Command(Slide, parameter={'param': param})
             elif "".join(token[0:Duplicate.Step]) == Duplicate.Token:
                 cur += Duplicate.Step
                 yield Command(Duplicate)
@@ -410,29 +401,29 @@ class Command(object):
                 yield Command(Retrieve)
             elif "".join(token[0:Register.Step]) == Register.Token:
                 cur += Register.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Register, parameter={'name': param, 'location': commands})
+                yield Command(Register, parameter={'param': param, 'location': commands})
             elif "".join(token[0:Call.Step]) == Call.Token:
                 cur += Call.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Call, parameter={'name': param, 'location': commands})
+                yield Command(Call, parameter={'param': param, 'location': commands})
             elif "".join(token[0:Jump.Step]) == Jump.Token:
                 cur += Jump.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Jump, parameter={'name': param})
+                yield Command(Jump, parameter={'param': param})
             elif "".join(token[0:Equal.Step]) == Equal.Token:
                 cur += Equal.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Equal, parameter={'name': param})
+                yield Command(Equal, parameter={'param': param})
             elif "".join(token[0:Less.Step]) == Less.Token:
                 cur += Less.Step
-                param, index = parameter(cur)
+                param, index = cls.parameter(code, cur)
                 cur += index
-                yield Command(Less, parameter={'name': param})
+                yield Command(Less, parameter={'param': param})
             elif "".join(token[0:Return.Step]) == Return.Token:
                 cur += Return.Step
                 yield Command(Return)
@@ -452,6 +443,17 @@ class Command(object):
                 cur += Iin.Step
                 yield Command(Iin)
             commands += 1
+
+    @classmethod
+    def parameter(cls, code, index):
+        param = ""
+        for character in code[index:]:
+            if character == " ":
+                param += "0"
+            elif character == "\t":
+                param += "1"
+            elif character == "\n":
+                return (param, len(param) + 1)
 
     @classmethod
     def characters(cls):
