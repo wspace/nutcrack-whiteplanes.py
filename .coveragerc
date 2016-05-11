@@ -1,2 +1,2 @@
 [run]
-omit = */site-packages/*
+omit = */virtualenv/*, */site-packages/*
