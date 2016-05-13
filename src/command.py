@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from enum import Enum
+from exceptions import SyntaxError
 
 
 ########################################################################
@@ -372,6 +373,7 @@ class Command(object):
                 param, index = cls.parameter(code, cur) if instruction.IsNeedParameter else (None, 0)
                 cur += index
                 return instruction, param, cur
+        raise SyntaxError("syntax error, invalid command")
 
     @classmethod
     def parameter(cls, code, index):
@@ -383,6 +385,7 @@ class Command(object):
                 param += "1"
             elif character == "\n":
                 return (param, len(param) + 1)
+        raise SyntaxError("syntax error, invalid command")
 
     @classmethod
     def characters(cls):
