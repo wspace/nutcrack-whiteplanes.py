@@ -359,15 +359,19 @@ class Command(object):
     def make(cls, code):
         cur, commands, count = 0, 0, len(code)
         while cur < count:
-            token = code[cur:] if ((cur + 3) - count) >= 0 else code[cur:cur + 4]
-
-            for instruction in cls.Instructions:
-                if "".join(token[0:instruction.Step]) == instruction.Token:
-                    cur += instruction.Step
-                    param, index = cls.parameter(code, cur) if instruction.IsNeedParameter else (None, 0)
-                    cur += index
-                    yield Command(instruction, parameter={'param': param, 'location': commands})
+            instruction, param, cur = cls.make_instruction(code=code, cursor=cur)
+            yield Command(instruction, parameter={'param': param, 'location': commands})
             commands += 1
+
+    @classmethod
+    def make_instruction(cls, *, code="", cursor=0):
+        token = code[cursor:] if ((cursor + 3) - len(code)) >= 0 else code[cursor:cursor + 4]
+        for instruction in cls.Instructions:
+            if "".join(token[0:instruction.Step]) == instruction.Token:
+                cur = cursor + instruction.Step
+                param, index = cls.parameter(code, cur) if instruction.IsNeedParameter else (None, 0)
+                cur += index
+                return instruction, param, cur
 
     @classmethod
     def parameter(cls, code, index):
