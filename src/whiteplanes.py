@@ -1,21 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from abc import ABCMeta, abstractmethod
+
+"""
+Whiteplanes is whitespace interpreter written in python.
+
+Homepage: http://whiteplanes.github.io
+Copyright (c) 2016 Takuya Katsurada.
+License: MIT (see README.md for details)
+"""
+from context import Context
 from command import Command, Register
-
-
-########################################################################
-# Context
-########################################################################
-class Context(metaclass=ABCMeta):
-
-    @abstractmethod
-    def input(self, name):
-        pass
-
-    @abstractmethod
-    def output(self, value):
-        pass
 
 
 ########################################################################

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys
-from enum import Enum
 from exceptions import SyntaxError
 
 

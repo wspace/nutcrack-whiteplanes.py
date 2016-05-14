@@ -1,2 +1,2 @@
 [run]
-omit = */virtualenv/*, */site-packages/*
+omit = */virtualenv/*, */site-packages/*, */src/context.py
