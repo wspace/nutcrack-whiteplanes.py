@@ -7,7 +7,7 @@ install:
   - pip install coveralls
 script:
   - coverage run setup.py test
-after_success:                                                                  
+after_success:
   - coveralls
 deploy:
   provider: pypi
@@ -18,5 +18,5 @@ deploy:
     distributions: sdist --formats=gztar,zip
     python: 3.5
   allow_failure: false
-
-
+  password:
+    secure: ukKgaeqrkCdsLFZ8DwthQzZanI7PEdZnci9Rr5rI447CQBITA7QsHMn0qH8VUlKkTs7oVBmM7DZO0QBW9K7Zuw8aOiwgvmWWQIZb4jNEdBqCCCFzNMeTDhjKlmLevBonAJWY4FhWuIbp5yRy6xp5ngxfeLmttK2BfKg3JUzG73DrkeNfr7zgm/CU/ncKQJrSRAmR42gsg8n0mPixuAinxcVifm6BRJgRepbdpD1ZK4RqwZkLE8tZQX1dGoIn2ttJCqx1diz6CCUE99vXIi1vjz7taFFlTrvNO8avmS9oIJ5WbuOJ4Fej8xf/4Dq8n9Rqo88E3qXzFpkwKk+xGJueE15eY1CMZqTwkoVoshQ/3PriofCDanWoJ2X57HO1Gj8tAE4sWmx+krsXxOpiZ/hWfYwzk5ZEPORr0X/oEcg2TNnWNZ73aLaqjrXclISC2YW1BBNO3pFJ9B9215jY88Bx1UxkvZ6rPRG3sa6ESkK0E/RBh+VdI4SG0gpduaxb22gJ1m9vleEHjXWwuUhdOj4dtxpwJ3EhyjPG74o37yptQzZZ81Yn2b8keQ6LPExPMFj0JWDgcssGKDSquReT9CDJ72PLxQG3d8y5AeGcgHPO2VAOuloUYjC5VZhW6795Oh1Zxg1pcaL8nsbcpXehH2pwZkIxpOgT8XgGetwGUQGf7s8=
