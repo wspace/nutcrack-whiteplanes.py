@@ -9,3 +9,14 @@ script:
   - coverage run setup.py test
 after_success:                                                                  
   - coveralls
+deploy:
+  provider: pypi
+  user: nutcrack
+  on:
+    repo: whiteplanes/whiteplanes.py
+    branch: release
+    distributions: sdist --formats=gztar,zip
+    python: 3.5
+  allow_failure: false
+
+
