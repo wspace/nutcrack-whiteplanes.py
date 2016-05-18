@@ -47,6 +47,15 @@ The programmer is free to push arbitrary-width integers onto the stack (currentl
 |[tab][newline]|[tab][space]||INPUT ( character )|
 |[tab][newline]|[tab][tab]||INPUT ( number )|
 
+## Installation
+[![Latest Stable Version](http://img.shields.io/pypi/v/whiteplanes.svg?style=flat)](https://pypi.python.org/pypi/whiteplanes)
+
+Whiteplanes requires that you are running Python 3.4 or later.
+
+``` sh
+pip install whiteplanes
+```
+
 ## License
 
 ![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)
