@@ -1,4 +1,4 @@
-# Whiteplanes
+# Whiteplanes.py
 [![Build Status](https://travis-ci.org/whiteplanes/whiteplanes.py.svg?branch=master)](https://travis-ci.org/whiteplanes/whiteplanes.py)
 [![Coverage Status](https://coveralls.io/repos/github/whiteplanes/whiteplanes.py/badge.svg?branch=master)](https://coveralls.io/github/whiteplanes/whiteplanes.py?branch=master)
 [![Dependency Status](https://gemnasium.com/badges/github.com/whiteplanes/whiteplanes.py.svg)](https://gemnasium.com/github.com/whiteplanes/whiteplanes.py)
